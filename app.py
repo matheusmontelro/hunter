@@ -22,14 +22,14 @@ import re
 # Configuração inicial
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
-load_dotenv()
+# load_dotenv()
 
 # Configuração do Google Sheets
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-creds_path = 'C:\\ProjetosPython\\AppHunter\\arquivos\\googlesheets.json'
+google_sheets_creds = json.loads(st.secrets["GOOGLE_SHEETS_CREDENTIALS"])
 
 try:
-    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_path, scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
     client = gspread.authorize(creds)
 except Exception as e:
     st.error(f"Erro ao autorizar Google Sheets: {str(e)}")
@@ -150,7 +150,7 @@ def formatar_telefone(numero, codigo_pais):
 
 # Inicialização
 funil = FunilVendas()
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = st.secrets["OPENAI_API_KEY"]
 if not api_key:
     st.error("Erro de configuração. Por favor, tente novamente mais tarde.")
     st.stop()
