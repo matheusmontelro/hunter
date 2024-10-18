@@ -36,8 +36,8 @@ except:
     # Se falhar, assume que já está em formato JSON
     google_sheets_creds = json.loads(google_sheets_creds_raw)
 
-creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds_raw, scope)
-    client = gspread.authorize(creds)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
+client = gspread.authorize(creds)
 except Exception as e:
     st.error(f"Erro ao autorizar Google Sheets: {str(e)}")
     st.stop()
