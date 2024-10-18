@@ -31,10 +31,10 @@ google_sheets_creds_raw = st.secrets["GOOGLE_SHEETS_CREDENTIALS"]
 
 try:
     # Tenta decodificar se estiver em Base64
-    google_sheets_creds = json.loads(base64.b64decode(google_sheets_creds_raw))
+    google_sheets_creds = json.loads(base64.b64decode(google_sheets_creds_raw).decode('utf-8'))
 except:
-    # Se falhar, assume que já está em formato JSON
-    google_sheets_creds = json.loads(google_sheets_creds_raw)
+    # Se falhar, assume que já está em formato JSON e substitui '\\n' por '\n'
+    google_sheets_creds = json.loads(google_sheets_creds_raw.replace('\\n', '\n'))
 
 creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
 try:
