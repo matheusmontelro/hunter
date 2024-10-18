@@ -18,6 +18,7 @@ import plotly.graph_objects as go
 from bokeh.models import Div
 from babel.numbers import format_currency
 import re
+import base64
 
 # Configuração inicial
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +27,13 @@ sys.path.append(current_dir)
 
 # Configuração do Google Sheets
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-google_sheets_creds = json.loads(st.secrets["GOOGLE_SHEETS_CREDENTIALS"])
+google_sheets_creds_json = st.secrets["GOOGLE_SHEETS_CREDENTIALS"]
+
+# Tenta decodificar se estiver em Base64
+try:
+    google_sheets_creds = json.loads(base64.b64decode(google_sheets_creds_json).decode('utf-8'))
+except:
+    google_sheets_creds = json.loads(google_sheets_creds_json)
 
 try:
     creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
