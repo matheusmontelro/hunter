@@ -27,16 +27,16 @@ sys.path.append(current_dir)
 
 # Configuração do Google Sheets
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-google_sheets_creds_json = st.secrets["GOOGLE_SHEETS_CREDENTIALS"]
+google_sheets_creds_raw = st.secrets["GOOGLE_SHEETS_CREDENTIALS"]
 
-# Tenta decodificar se estiver em Base64
 try:
-    google_sheets_creds = json.loads(base64.b64decode(google_sheets_creds_json).decode('utf-8'))
+    # Tenta decodificar se estiver em Base64
+    google_sheets_creds = json.loads(base64.b64decode(google_sheets_creds_raw))
 except:
-    google_sheets_creds = json.loads(google_sheets_creds_json)
+    # Se falhar, assume que já está em formato JSON
+    google_sheets_creds = json.loads(google_sheets_creds_raw)
 
-try:
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
     client = gspread.authorize(creds)
 except Exception as e:
     st.error(f"Erro ao autorizar Google Sheets: {str(e)}")
