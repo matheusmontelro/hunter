@@ -51,6 +51,22 @@ except Exception as e:
     st.error(f"Erro ao conectar com o Google Sheets: {str(e)}")
     st.stop()
 
+# Abrir a planilha usando o ID
+spreadsheet_id = '1MegMHoZGKnAWW9cy4ybe-gxCEef5m5TfHuuH1Gdzdis'
+try:
+    sheet = client.open_by_key(spreadsheet_id).worksheet('LEADS - Diagnóstico')
+except Exception as e:
+    st.error(f"Erro ao conectar com o Google Sheets: {str(e)}")
+    st.stop()
+
+# Abrir a planilha usando o ID
+spreadsheet_id = '1MegMHoZGKnAWW9cy4ybe-gxCEef5m5TfHuuH1Gdzdis'
+try:
+    sheet = client.open_by_key(spreadsheet_id).worksheet('LEADS - Diagnóstico')
+except Exception as e:
+    st.error(f"Erro ao conectar com o Google Sheets: {str(e)}")
+    st.stop()
+
 def clean_text(text):
     # Remove caracteres não imprimíveis, mantendo quebras de linha
     text = ''.join(char for char in text if char.isprintable() or char in ['\n', '\r'])
