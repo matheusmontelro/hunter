@@ -32,6 +32,9 @@ scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/au
 # Ler os segredos diretamente do arquivo TOML
 secrets = st.secrets
 
+st.write("Raw credentials:", google_sheets_creds_raw)
+st.write("Processed credentials:", json.dumps(google_sheets_creds, indent=2))
+
 google_sheets_creds_raw = secrets["GOOGLE_SHEETS_CREDENTIALS"]
 
 try:
