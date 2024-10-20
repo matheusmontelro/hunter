@@ -22,8 +22,8 @@ import re
 import base64
 
 st.set_page_config(
-    page_title="Seu Título Aqui",
-    page_icon="🧊",
+    page_title="HunterAI - Análise de Funil para Clínicas Odontológicas",
+    page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
