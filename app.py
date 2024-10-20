@@ -32,10 +32,14 @@ scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/au
 # Ler os segredos diretamente do arquivo TOML
 secrets = st.secrets
 
-st.write("Raw credentials:", google_sheets_creds_raw)
-st.write("Processed credentials:", json.dumps(google_sheets_creds, indent=2))
+# Verificar se a chave GOOGLE_SHEETS_CREDENTIALS existe nos segredos
+if "GOOGLE_SHEETS_CREDENTIALS" not in secrets:
+    st.error("Credenciais do Google Sheets não encontradas nos segredos.")
+    st.stop()
 
 google_sheets_creds_raw = secrets["GOOGLE_SHEETS_CREDENTIALS"]
+
+st.write("Raw credentials:", google_sheets_creds_raw)
 
 try:
     # Tenta decodificar de base64 primeiro
