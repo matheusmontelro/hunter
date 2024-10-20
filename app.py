@@ -39,7 +39,7 @@ if "GOOGLE_SHEETS_CREDENTIALS" not in secrets:
 
 google_sheets_creds_raw = secrets["GOOGLE_SHEETS_CREDENTIALS"]
 
-st.write("Raw credentials:", google_sheets_creds_raw)
+#st.write("Raw credentials:", google_sheets_creds_raw)
 
 try:
     # Tenta decodificar de base64 primeiro
@@ -54,7 +54,7 @@ except:
         google_sheets_creds_raw = google_sheets_creds_raw.strip("'''")
         google_sheets_creds = json.loads(google_sheets_creds_raw)
 
-st.write("Processed credentials:", json.dumps(google_sheets_creds, indent=2))
+#st.write("Processed credentials:", json.dumps(google_sheets_creds, indent=2))
 
 # Inicializar as credenciais e o cliente
 creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
