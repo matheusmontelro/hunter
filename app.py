@@ -27,8 +27,7 @@ sys.path.append(current_dir)
 # load_dotenv()
 
 # Ler os segredos diretamente do arquivo TOML
-with open("secrets.toml", "r") as f:
-    secrets = toml.load(f)
+secrets = st.secrets
 
 google_sheets_creds_raw = secrets["GOOGLE_SHEETS_CREDENTIALS"]
 
