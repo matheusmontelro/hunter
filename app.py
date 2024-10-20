@@ -30,8 +30,7 @@ st.set_page_config(
         'Get Help': 'https://www.extremelycoolapp.com/help',
         'Report a bug': "https://www.extremelycoolapp.com/bug",
         'About': "# This is a header. This is an *extremely* cool app!"
-    },
-    theme="dark"
+    }
 )
 
 # Configuração inicial
