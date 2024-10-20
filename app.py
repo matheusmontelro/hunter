@@ -1,4 +1,5 @@
 import streamlit as st
+import toml
 from dotenv import load_dotenv
 import os
 import sys
@@ -25,14 +26,16 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
 # load_dotenv()
 
-# Configuração do Google Sheets
-scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-google_sheets_creds_raw = st.secrets["GOOGLE_SHEETS_CREDENTIALS"]
+# Ler os segredos diretamente do arquivo TOML
+with open("secrets.toml", "r") as f:
+    secrets = toml.load(f)
+
+google_sheets_creds_raw = secrets["GOOGLE_SHEETS_CREDENTIALS"]
 
 try:
     # Tenta decodificar se estiver em Base64
-    google_sheets_creds = json.loads(base64.b64decode(google_sheets_creds_raw).decode('utf-8'))
-except:
+    google_sheets_creds = json.loads(base64.b64decode(google_sheets_creds_raw.encode()).decode('utf-8'))
+except ValueError:
     # Se falhar, assume que já está em formato JSON e substitui '\\n' por '\n'
     google_sheets_creds = json.loads(google_sheets_creds_raw.replace('\\n', '\n'))
 
