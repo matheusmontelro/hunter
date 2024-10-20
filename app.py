@@ -26,6 +26,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
 # load_dotenv()
 
+# Adicione esta linha após as importações existentes
+scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+
 # Ler os segredos diretamente do arquivo TOML
 secrets = st.secrets
 
@@ -39,20 +42,12 @@ except json.JSONDecodeError:
     google_sheets_creds_raw = google_sheets_creds_raw.strip("'''")
     google_sheets_creds = json.loads(google_sheets_creds_raw)
 
-# Abrir a planilha usando o ID
-spreadsheet_id = '1MegMHoZGKnAWW9cy4ybe-gxCEef5m5TfHuuH1Gdzdis'
+# Inicializar as credenciais e o cliente
+creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
 try:
-    sheet = client.open_by_key(spreadsheet_id).worksheet('LEADS - Diagnóstico')
+    client = gspread.authorize(creds)
 except Exception as e:
-    st.error(f"Erro ao conectar com o Google Sheets: {str(e)}")
-    st.stop()
-
-# Abrir a planilha usando o ID
-spreadsheet_id = '1MegMHoZGKnAWW9cy4ybe-gxCEef5m5TfHuuH1Gdzdis'
-try:
-    sheet = client.open_by_key(spreadsheet_id).worksheet('LEADS - Diagnóstico')
-except Exception as e:
-    st.error(f"Erro ao conectar com o Google Sheets: {str(e)}")
+    st.error(f"Erro ao autorizar Google Sheets: {str(e)}")
     st.stop()
 
 # Abrir a planilha usando o ID
