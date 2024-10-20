@@ -35,12 +35,19 @@ secrets = st.secrets
 google_sheets_creds_raw = secrets["GOOGLE_SHEETS_CREDENTIALS"]
 
 try:
-    # Tenta carregar o JSON diretamente
-    google_sheets_creds = json.loads(google_sheets_creds_raw)
-except json.JSONDecodeError:
-    # Se falhar, tenta remover as aspas triplas e carregar novamente
-    google_sheets_creds_raw = google_sheets_creds_raw.strip("'''")
-    google_sheets_creds = json.loads(google_sheets_creds_raw)
+    # Tenta decodificar de base64 primeiro
+    decoded_creds = base64.b64decode(google_sheets_creds_raw).decode('utf-8')
+    google_sheets_creds = json.loads(decoded_creds)
+except:
+    try:
+        # Se falhar, tenta carregar o JSON diretamente
+        google_sheets_creds = json.loads(google_sheets_creds_raw)
+    except json.JSONDecodeError:
+        # Se ainda falhar, tenta remover as aspas triplas e carregar novamente
+        google_sheets_creds_raw = google_sheets_creds_raw.strip("'''")
+        google_sheets_creds = json.loads(google_sheets_creds_raw)
+
+st.write("Processed credentials:", json.dumps(google_sheets_creds, indent=2))
 
 # Inicializar as credenciais e o cliente
 creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
