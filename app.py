@@ -32,18 +32,12 @@ secrets = st.secrets
 google_sheets_creds_raw = secrets["GOOGLE_SHEETS_CREDENTIALS"]
 
 try:
-    # Tenta decodificar se estiver em Base64
-    google_sheets_creds = json.loads(base64.b64decode(google_sheets_creds_raw.encode()).decode('utf-8'))
-except ValueError:
-    # Se falhar, assume que já está em formato JSON e substitui '\\n' por '\n'
-    google_sheets_creds = json.loads(google_sheets_creds_raw.replace('\\n', '\n'))
-
-creds = ServiceAccountCredentials.from_json_keyfile_dict(google_sheets_creds, scope)
-try:
-    client = gspread.authorize(creds)
-except Exception as e:
-    st.error(f"Erro ao autorizar Google Sheets: {str(e)}")
-    st.stop()
+    # Tenta carregar o JSON diretamente
+    google_sheets_creds = json.loads(google_sheets_creds_raw)
+except json.JSONDecodeError:
+    # Se falhar, tenta remover as aspas triplas e carregar novamente
+    google_sheets_creds_raw = google_sheets_creds_raw.strip("'''")
+    google_sheets_creds = json.loads(google_sheets_creds_raw)
 
 # Abrir a planilha usando o ID
 spreadsheet_id = '1MegMHoZGKnAWW9cy4ybe-gxCEef5m5TfHuuH1Gdzdis'
