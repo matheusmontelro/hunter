@@ -21,6 +21,19 @@ from babel.numbers import format_currency
 import re
 import base64
 
+st.set_page_config(
+    page_title="Seu Título Aqui",
+    page_icon="🧊",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://www.extremelycoolapp.com/help',
+        'Report a bug': "https://www.extremelycoolapp.com/bug",
+        'About': "# This is a header. This is an *extremely* cool app!"
+    },
+    theme="dark"
+)
+
 # Configuração inicial
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
@@ -261,7 +274,7 @@ def show_qualification_questions():
         elif question['tipo'] == 'email':
             email = st.text_input(question['pergunta'], key=question['chave'])
             if email and not validar_email(email):
-                st.error("Por favor, insira um email válido.")
+                st.error("Por favor, insira um email válido. Ex: email@email.com")
             else:
                 st.session_state['qualification_data'][question['chave']] = email
         elif question['tipo'] == 'phone':
@@ -271,7 +284,7 @@ def show_qualification_questions():
                 if telefone_formatado:
                     st.session_state['qualification_data'][question['chave']] = telefone_formatado
                 else:
-                    st.error("Por favor, insira um número de telefone válido.")
+                    st.error("Por favor, insira um número de telefone válido. Ex: 21912345678")
         elif question['tipo'] == 'select':
             st.session_state['qualification_data'][question['chave']] = st.selectbox(
                 question['pergunta'], 
@@ -279,7 +292,7 @@ def show_qualification_questions():
                 key=question['chave']
             )
 
-    if st.button("Continuar para coleta de dados do funil"):
+    if st.button("Continuar para análise do funil"):
         if all(st.session_state['qualification_data'].values()):
             sucesso = inserir_dados_sheets(st.session_state['qualification_data'])
             if sucesso:
@@ -381,16 +394,16 @@ Com base nesses dados, realize uma análise detalhada que inclua:
    - Avalie as taxas atuais de conversão em cada etapa do funil.
    - Identifique pontos fortes e áreas de melhoria.
 
-2. **Projeções com Assistente de IA:**
-   - Analise o impacto das melhorias propostas pelo assistente de IA em cada etapa do funil.
+2. **Projeções com HunterAI:**
+   - Analise o impacto das melhorias propostas pelo assistente de IA da Hunter em cada etapa do funil.
    - Destaque o aumento projetado nas vendas e nos valores vendidos e de orçamentos.
 
 3. **Plano de Ação:**
    - Detalhe as ações recomendadas para otimizar o funil de vendas.
-   - Inclua estratégias para implementação do assistente de IA, otimização de investimento em tráfego, treinamento da equipe e monitoramento contínuo.
+   - Inclua estratégias para implementação da HunterAI, otimização de investimento em tráfego, treinamento da equipe e monitoramento contínuo.
 
 4. **Conclusão:**
-   - Destaque os benefícios da adoção do assistente de IA para a clínica odontológica.
+   - Destaque os benefícios da adoção da HunterAI para a clínica odontológica.
    - Enfatize como a solução pode ajudar a aumentar as conversões e o faturamento da clínica.
 
 Utilize um tom persuasivo, ressaltando como a solução agrega valor e resolve desafios específicos enfrentados pela clínica.
